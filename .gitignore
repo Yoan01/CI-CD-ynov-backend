@@ -1,0 +1,34 @@
+# Node modules
+node_modules/
+
+# Fichiers de log
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.swp
+
+# Fichiers de configuration de l'éditeur (si nécessaire)
+.vscode/
+.idea/
+
+# Variables d'environnement
+.env
+
+# Dossiers de build et de distribution
+/dist
+/build
+/coverage
+
+# Fichiers liés à Docker (si tu utilises Docker)
+docker-compose.override.yml
+*.dockerignore
+
+# Fichiers générés par l'IDE (si tu utilises un IDE spécifique, ex: WebStorm)
+*.iml
+*.sublime-workspace
+
+# Cache des dépendances
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
