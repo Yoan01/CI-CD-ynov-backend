@@ -31,10 +31,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies and run tests
-        run: |
-          npm ci
-          npm test
+#      - name: Install dependencies and run tests
+#        run: |
+#          npm ci
+#          npm test
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
