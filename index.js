@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 import userRoutes from './routes/userRoutes.js';
 import User from './models/User.js'; // Import du modèle User
 
-dotenv.config();
+dotenv.config(); // Charge les variables d'environnement depuis .env
 
 const app = express();
 app.use(express.json());
@@ -15,6 +15,7 @@ app.use(cors());
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// Connexion à MongoDB
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('MongoDB connecté');
@@ -22,6 +23,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     })
     .catch(err => console.error('Erreur de connexion MongoDB:', err));
 
+// Routes
 app.use('/api/users', userRoutes);
 
 // Création automatique de l'admin si non existant
