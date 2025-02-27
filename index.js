@@ -55,5 +55,9 @@ const server = app.listen(PORT, () => {
     console.log(`Serveur backend en cours d'exécution sur le port ${PORT}`);
 });
 
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', message: 'Backend is running' });
+});
+
 // Exportation de `app` pour les tests
 export default app;
