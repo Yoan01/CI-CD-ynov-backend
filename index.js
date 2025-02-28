@@ -6,12 +6,13 @@ import bcrypt from 'bcrypt';
 import userRoutes from './routes/userRoutes.js';
 import User from './models/User.js'; // Import du modèle User
 
-const allowedOrigins = ['http://localhost:3000', 'https://example2.com'];
+const allowedOrigins = ['http://localhost:3000', 'https://test.com'];
 
 dotenv.config(); // Charge les variables d'environnement depuis .env
 
 const app = express();
 app.use(express.json());
+
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
@@ -19,8 +20,11 @@ app.use(cors({
         } else {
             callback(new Error('Not allowed by CORS'));
         }
-    }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
