@@ -55,7 +55,7 @@ export const loginUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await User.find({}, '-email -birthDate'); // Exclure email et date de naissance
+        const users = await User.find();
         res.json(users);
     } catch (error) {
         res.status(500).json({ message: error.message });
