@@ -1,16 +1,19 @@
 import jwt from 'jsonwebtoken';
 
-export const authenticateUser = (req, res, next) => {
-    const token = req.header('Authorization');
+export const authenticateUser = async (req, res, next) => {
+    const authHeader = req.headers.authorization;
 
-    if (!token) return res.status(401).json({ message: "Accès refusé, token manquant" });
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ message: "Accès refusé, token manquant" }); // Ce message doit correspondre au test
+    }
 
     try {
+        const token = authHeader.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+        req.user = await User.findById(decoded.id).select("-password");
         next();
     } catch (error) {
-        res.status(400).json({ message: "Token invalide" });
+        res.status(401).json({ message: "Token invalide" });
     }
 };
 

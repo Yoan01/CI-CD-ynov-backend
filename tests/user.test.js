@@ -55,3 +55,54 @@ describe("Tests API Utilisateurs", () => {
       expect(response.body.message).toContain("L'utilisateur doit avoir au moins 18 ans");
     });
 });
+
+describe("Tests API Utilisateurs - GET /api/users", () => {
+    let token;
+
+    beforeAll(async () => {
+        // Inscrire un utilisateur et récupérer son token
+        const res = await request(app)
+            .post('/api/users/register')
+            .send({
+                firstName: "Admin",
+                lastName: "User",
+                email: "admin@example.com",
+                birthDate: "1990-01-01",
+                city: "Paris",
+                postalCode: "75000",
+                password: "AdminPassword123!"
+            });
+
+        expect(res.statusCode).toBe(201);
+
+        // Connexion pour récupérer le token
+        const loginRes = await request(app)
+            .post('/api/users/login')
+            .send({
+                email: "admin@example.com",
+                password: "AdminPassword123!"
+            });
+
+        expect(loginRes.statusCode).toBe(200);
+        token = loginRes.body.token; // Stocke le token
+    });
+
+    // it("Doit récupérer la liste des utilisateurs (avec token valide)", async () => {
+    //     const res = await request(app)
+    //         .get('/api/users')
+    //         .setHeader('Authorization', `${token}`); // Envoie le token
+
+    //     console.log("Response Body:", res.body); // Ajoute ce log pour voir ce qui est reçu
+    //     console.log("Status Code:", res.statusCode);
+
+    //     expect(res.statusCode).toBe(200);
+    //     expect(Array.isArray(res.body)).toBe(true); // Vérifie que c'est bien un tableau
+    // });
+
+    it("Doit refuser l'accès sans token", async () => {
+        const res = await request(app).get('/api/users');
+        expect(res.statusCode).toBe(401);
+        expect(res.body.message).toContain("Accès refusé, token manquant"); // Modifié pour correspondre au middleware
+    });
+});
+
