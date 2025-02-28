@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 import userRoutes from './routes/userRoutes.js';
 import User from './models/User.js'; // Import du modèle User
 
-const allowedOrigins = ['http://localhost:3000', 'https://test.com'];
+const allowedOrigins = ['http://localhost:3000', 'http://cicd-front-ijajoe-9064ed-46-202-134-129.traefik.me/'];
 
 dotenv.config(); // Charge les variables d'environnement depuis .env
 
