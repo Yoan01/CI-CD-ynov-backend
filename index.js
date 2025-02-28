@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
 import userRoutes from './routes/userRoutes.js';
-import User from './models/User.js'; // Import du modèle User
+import User from './models/User.js';
+import {specs, swaggerUi} from "./swagger.js";
 
 const allowedOrigins = ['http://localhost:3000', 'http://cicd-front-ijajoe-9064ed-46-202-134-129.traefik.me/'];
 
@@ -38,6 +39,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(err => console.error('Erreur de connexion MongoDB:', err));
 
 // Routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/api/users', userRoutes);
 
 // Création automatique de l'admin si non existant

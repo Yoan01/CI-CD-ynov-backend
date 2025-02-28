@@ -3,6 +3,41 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import moment from 'moment'; // Pour manipuler les dates
 
+/**
+ * @swagger
+ * /register:
+ *   post:
+ *     summary: Inscription d'un nouvel utilisateur
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *               city:
+ *                 type: string
+ *               postalCode:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Inscription réussie
+ *       400:
+ *         description: Utilisateur existe déjà ou a moins de 18 ans
+ *       500:
+ *         description: Erreur serveur
+ */
 export const registerUser = async (req, res) => {
     try {
         const { firstName, lastName, email, birthDate, city, postalCode, password } = req.body;
@@ -32,6 +67,30 @@ export const registerUser = async (req, res) => {
     }
 };
 
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Connexion utilisateur
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Connexion réussie, retourne un token
+ *       400:
+ *         description: Identifiants incorrects
+ *       500:
+ *         description: Erreur serveur
+ */
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -53,6 +112,17 @@ export const loginUser = async (req, res) => {
     }
 };
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Récupérer la liste des utilisateurs
+ *     responses:
+ *       200:
+ *         description: Succès, retourne une liste d'utilisateurs
+ *       500:
+ *         description: Erreur serveur
+ */
 export const getUsers = async (req, res) => {
     try {
         const users = await User.find();
@@ -62,7 +132,25 @@ export const getUsers = async (req, res) => {
     }
 };
 
-
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     summary: Supprimer un utilisateur
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Utilisateur supprimé avec succès
+ *       404:
+ *         description: Utilisateur non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
 export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
