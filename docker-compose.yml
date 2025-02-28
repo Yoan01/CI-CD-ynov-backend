@@ -23,7 +23,10 @@ services:
       - mongo_db
   
   mongoo_seed:
-    build: ./mongo-seed
+    build: .
+    volumes:
+      - .:/app
+      - /app/mongoo-seed
 
     links:
       - mongo_db
